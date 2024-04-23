@@ -5,20 +5,27 @@ use Illuminate\Auth\Events\Login;
 use function Laravel\Folio\{middleware, name};
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+use function Livewire\Volt\state;
 
-new class extends Component {
-    public $search = '';
+state(search: '', posts: Post::all());
 
-    protected $rules = [
-        'search' => 'required|min:3',
-    ];
-
-    public function search()
-    {
-        dd('ok');
-        $this->validate();
-    }
+$searchItem = function () {
+    dd($this->search);
 };
+
+// new class extends Component {
+//     public $search = '';
+
+//     protected $rules = [
+//         'search' => 'required|min:3',
+//     ];
+
+//     public function search()
+//     {
+//         dd('ok');
+//         $this->validate();
+//     }
+// };
 
 ?>
 <x-layout>
@@ -28,7 +35,7 @@ new class extends Component {
 
     <x-card class="mt-4 flex content-center justify-between">
         @volt
-            <form wire:submit='search' class="w-full flex gap-4">
+            <form wire:submit='searchItem' class="w-full flex gap-4">
                 <x-form.input placeholder="Search something " wire:model='search'>
                     <x-slot name='icon'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -41,9 +48,21 @@ new class extends Component {
                 @error('search')
                     <span class="error">{{ $message }}</span>
                 @enderror
-
-                <x-button.primary class="my-3"> Search</x-button.primary>
+                {{-- <button type="submit">search</button> --}}
+                <x-button.primary type='submit' class="my-3" wire:click='search'> Search</x-button.primary>
             </form>
         @endvolt
     </x-card>
+
+    @volt
+        <div>
+            @forelse ($posts as $post)
+                <x-post :post="$post"></x-post>
+            @empty
+                <x-card class="mt-10 ring-transparent ">
+                    No Posts Yet!!
+                </x-card>
+            @endforelse
+        </div>
+    @endvolt
 </x-layout>

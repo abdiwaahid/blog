@@ -2,21 +2,14 @@
     <nav aria-label="Global" class="hidden md:block">
         <ul class="flex items-center gap-6 text-sm">
             {{ $items }}
-
         </ul>
     </nav>
 
     <div class="flex items-center gap-4">
         <div class="sm:flex sm:gap-4">
-            <x-button.primary :isLink="true" href="/auth/login">
+            <x-button.primary :isLink="true" href="{{ route('auth.login') }}">
                 Login
             </x-button.primary>
-
-            <div class="hidden sm:flex">
-                <x-button.secondary :isLink="true" href="/auth/register">
-                    Register
-                </x-button.secondary>
-            </div>
         </div>
 
         <div class="block md:hidden">

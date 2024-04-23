@@ -19,23 +19,15 @@
                     </x-navigation.link>
 
                     <x-navigation.link>
-                        Careers
+                        Topics
                     </x-navigation.link>
 
                     <x-navigation.link>
-                        History
-                    </x-navigation.link>
-
-                    <x-navigation.link>
-                        Services
+                        My Posts
                     </x-navigation.link>
 
                     <x-navigation.link>
                         Projects
-                    </x-navigation.link>
-
-                    <x-navigation.link>
-                        Blog
                     </x-navigation.link>
                 @endslot
             </x-navigation.nav>

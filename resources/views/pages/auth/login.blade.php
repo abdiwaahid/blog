@@ -7,7 +7,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 middleware(['guest']);
-name('login');
+name('auth.login');
 
 new class extends Component {
     #[Validate('required|email')]
@@ -49,8 +49,8 @@ new class extends Component {
 
                 <hr class="hr mt-5 mb-3">
 
-                <p class="text-center mt-3">Don't have an account? <a class="text-bold text-blue-600"
-                        href="{{ url('auth/register') }}">Sign Up</a></p>
+                <p class="text-center mt-3">Don't have an account? <a
+                        class="text-bold text-blue-600"href="{{ route('auth.register') }}">Sign Up</a></p>
 
             </form>
         @endvolt
