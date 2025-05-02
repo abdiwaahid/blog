@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Transitions for dark mode */
+.dark body {
+    @apply transition-colors duration-300;
+}
+
+/* Alpine.js transitions */
+[x-cloak] {
+    display: none !important;
+}
