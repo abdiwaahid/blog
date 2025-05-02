@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\Post;
+use App\Models\Article;
 use App\Models\Comment;
 new class extends Component {
     public $post;
@@ -13,7 +13,7 @@ new class extends Component {
         'content' => 'required|min:3',
     ];
 
-    public function mount(Post $post)
+    public function mount(Article $post)
     {
         $this->post = $post;
     }

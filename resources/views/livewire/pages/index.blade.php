@@ -357,10 +357,10 @@ new class extends Component
         </div>
       </section>
   
-    <div class="mt-6 grid lg:grid-cols-3 gap-16 lg:gap-x-8 lg:gap-y-12">
+    <div class="mt-6 mx-8 grid lg:grid-cols-3 gap-16 lg:gap-x-8 lg:gap-y-12">
 
         @forelse ($posts as $post)
-            <livewire:components.post :post="$post" />
+            <livewire:components.article :article="$post" />
         @empty
             <div class="lg:col-span-3 flex items-center justify-center h-full">
                 <div class="text-center">

@@ -1,13 +1,13 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\Post;
+use App\Models\Article;
 new class extends Component {
-    public Post $post;
+    public Article $post;
     public $likesCount;
     public $isLiked = false;
 
-    public function mount(Post $post)
+    public function mount(Article $post)
     {
         $this->post = $post;
         $this->likesCount = $post->likes_count;

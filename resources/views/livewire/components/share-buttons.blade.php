@@ -1,14 +1,14 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\Post;
+use App\Models\Article;
 new class extends Component {
-    public Post $post;
+    public Article $post;
     public $shareUrl;
     public $shareTitle;
     public $showCopiedMessage = false;
 
-    public function mount(Post $post)
+    public function mount(Article $post)
     {
         $this->post = $post;
         $this->shareUrl = route('article', ['id' => $post->id, 'slug' => $post->slug]) ;

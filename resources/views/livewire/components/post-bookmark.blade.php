@@ -1,12 +1,12 @@
 <?php
 
 use Livewire\Volt\Component;
-use App\Models\Post;
+use App\Models\Article;
 new class extends Component {
     public $post;
     public $isBookmarked;
 
-    public function mount(Post $post)
+    public function mount(Article $post)
     {
         $this->post = $post;
         $this->isBookmarked = $post->isBookmarkedBy(auth()->id());
