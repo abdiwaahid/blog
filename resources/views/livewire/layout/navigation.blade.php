@@ -31,9 +31,9 @@ new class extends Component {
                 class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
                 Home
             </a>
-            <a href="#"
+            <a href="{{ route('topics') }}"
                 class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
-                Categories
+                Topics
             </a>
             <a href="#"
                 class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">

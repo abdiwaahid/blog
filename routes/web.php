@@ -14,6 +14,9 @@ Route::view('profile', 'profile')
     ->name('profile');
 
     Volt::route('/', 'pages.index');
+    Volt::route('/topics', 'pages.topics.index')->name('topics');
+    Volt::route('/topics/{slug}', 'pages.topics.topic')->name('topic');
+    Volt::route('/articles', 'pages.articles')->name('articles');
     Volt::route('/article/{slug}', 'pages.article')->name('article');
 
 require __DIR__.'/auth.php';
