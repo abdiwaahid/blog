@@ -12,7 +12,7 @@ new class extends Component {
 
     public function mount(string $slug)
     {
-        $this->article = Article::withCount('comments')->where('slug', $slug)->firstOrFail();
+        $this->article = Article::withCount('comments')->withCount('likes')->where('slug', $slug)->firstOrFail();
         $this->relatedArticles = Article::published()->where('topic_id', $this->article->topic_id)->where('id', '!=', $this->article->id)->limit(3)->get();
 
         if (!Cookie::get('article_viewed_' . $this->article->id)) {
@@ -39,11 +39,13 @@ new class extends Component {
     <article class="space-y-8 py-8">
         <header class="mb-8">
             <div class="mb-4 flex items-center gap-2">
-              <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300">
-                {{ $article->topic?->name }}
-              </span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">5 min read</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">{{ carbon($article->published_at ?? $article->created_at)->format('F j, Y ') }}</span>
+                <span
+                    class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+                    {{ $article->topic?->name }}
+                </span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">5 min read</span>
+                <span
+                    class="text-xs text-gray-500 dark:text-gray-400">{{ carbon($article->published_at ?? $article->created_at)->format('F j, Y ') }}</span>
             </div>
             <h1 class="mb-4 text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl dark:text-white">
                 {{ $article->title }}
@@ -51,11 +53,11 @@ new class extends Component {
             <p class="mb-6 text-xl text-gray-600 dark:text-gray-300">
                 {{ $article->excerpt }}
             </p>
-            
+
             <!-- Author Info -->
-            {{-- <div class="flex items-center">
+            <div class="flex items-center">
               <img 
-                src="https://placehold.co/80x80" 
+                src="{{ avatar_path($article->user->avatar) }}" 
                 alt="Alex Johnson" 
                 class="mr-4 h-12 w-12 rounded-full object-cover"
               />
@@ -63,28 +65,10 @@ new class extends Component {
                 <p class="font-medium text-gray-900 dark:text-white">Alex Johnson</p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Senior Web Developer & Tech Writer</p>
               </div>
-            </div> --}}
-          </header>
+            </div>
+        </header>
+
         
-        <div class="flex justify-between border-b border-t px-3 py-2 dark:border-gray-700">
-            <div>
-                <span class="text-sm font-semibold text-gray-400 tracking-wider uppercase">By
-                    {{ $article->user->name }}</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <livewire:components.post-likes :post="$article" />
-                <livewire:components.post-bookmark :post="$article" />
-                <div class="flex items-center space-x-2">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span>{{ $article->views ?? 1 }}</span>
-                </div>
-            </div>
-        </div>
         <div>
             @if ($article->featured_image)
                 <img src="{{ url('storage/' . $article->featured_image) }}" class="rounded-lg "
@@ -96,17 +80,31 @@ new class extends Component {
         </div>
     </article>
 
-    <!-- Share Buttons -->
-    <div class="flex items-center space-x-4 mb-12 mt-8">
-        <span class="text-gray-500 dark:text-gray-400">Share this post:</span>
+    <div
+        class="my-8 flex flex-wrap items-center justify-between gap-4 border-t border-b border-gray-200 py-6 dark:border-gray-800">
+        <!-- View Count -->
+        <div class="flex items-center text-gray-500 dark:text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span>{{ $article->view_count }} </span>
+        </div>
+
+        <!-- Like Button -->
+        <div class="flex items-center space-x-4">
+            <livewire:components.post-likes :post="$article" />
+            <livewire:components.post-bookmark :post="$article" />
+        </div>
+
+
         <livewire:components.share-buttons :post="$article" />
     </div>
 
-    <!-- Comments Section -->
-    <section class="my-12">
-        <h2 class="text-2xl font-bold mb-8 dark:text-gray-100">Comments ({{ $article->comments_count }})</h2>
-        <livewire:components.comments :post="$article" />
-    </section>
+
+    <livewire:components.comments :post="$article" />
+
 
     <!-- Related Posts -->
     <section class="border-t border-gray-300 dark:border-gray-700 my-8 pt-8">

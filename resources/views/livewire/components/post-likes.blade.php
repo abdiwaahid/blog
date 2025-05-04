@@ -34,6 +34,18 @@ new class extends Component {
 
 ?>
 <button wire:click="toggleLike"
+    class="flex items-center gap-2 rounded-full  px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+    :class="{ ' text-red-600   dark:text-red-400 ': {{ $isLiked }} }"
+    @click="toggleLike">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        :class="{ 'text-red-500 fill-red-500': {{ $isLiked }} }" stroke-linejoin="round">
+        <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+    <span>{{ $likesCount ?? 0 }}</span>
+</button>
+{{-- <button wire:click="toggleLike"
     class="flex items-center space-x-1 text-sm {{ $isLiked ? 'text-red-500' : 'text-gray-500 dark:text-gray-400' }}">
     <svg class="w-5 h-5" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -41,4 +53,4 @@ new class extends Component {
         </path>
     </svg>
     <span>{{ $likesCount ?? 0 }}</span>
-</button>
+</button> --}}
