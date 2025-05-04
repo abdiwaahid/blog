@@ -17,7 +17,7 @@ new class extends Component {
     public function toggleLike()
     {
         if (!auth()->check()) {
-            return redirect()->route('login');
+            return redirect()->route('auth.login');
         }
 
         if ($this->isLiked) {

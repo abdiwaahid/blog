@@ -25,8 +25,8 @@ class TopicResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')->required()
                     ->afterStateUpdated(fn($state, $set) => $set('slug', str($state)->slug()))->live(true)
-                    ->unique('categories', 'name', ignoreRecord: true),
-                Forms\Components\TextInput::make('slug')->required()->unique('categories', 'slug', ignoreRecord: true),
+                    ->unique('topics', 'name', ignoreRecord: true),
+                Forms\Components\TextInput::make('slug')->required()->unique('topics', 'slug', ignoreRecord: true),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('parent_id')->relationship('parent', 'name'),

@@ -21,7 +21,7 @@ new class extends Component {
     public function submitComment()
     {
         if (!auth()->check()) {
-            return redirect()->route('login');
+            return redirect()->route('auth.login');
         }
 
         $this->validate();
@@ -111,7 +111,7 @@ new class extends Component {
             </form>
         @else
             <p class="text-center text-gray-500 dark:text-gray-400">
-                Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">login</a>
+                Please <a href="{{ route('auth.login') }}" class="text-blue-600 hover:underline">login</a>
                 to leave a comment.
             </p>
         @endauth

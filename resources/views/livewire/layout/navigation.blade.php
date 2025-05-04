@@ -16,7 +16,8 @@ new class extends Component {
 }; ?>
 
 <header
-    class="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/80 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80">
+    class="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/80 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80"
+    x-data="{ mobileMenuOpen: false, searchOpen: false }">
     <div class="container mx-auto flex h-16 items-center justify-between px-4">
         <div class="flex items-center gap-2">
             <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">
@@ -110,7 +111,7 @@ new class extends Component {
     </div>
 
     <!-- Mobile Navigation -->
-    <div class="md:hidden" x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
+    <div class="md:hidden" x-cloak x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2">
@@ -138,7 +139,7 @@ new class extends Component {
 
     <!-- Search Overlay -->
     <div class="absolute inset-0 z-50 flex items-start justify-center pt-16 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm"
-        x-show="searchOpen" x-transition:enter="transition ease-out duration-200"
+        x-cloak x-show="searchOpen" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0" @click.self="searchOpen = false">

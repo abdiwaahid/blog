@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Livewire\Volt\Component;
 
-new class extends Component
-{
+new class extends Component {
     public string $slug;
     public Article $article;
     public $relatedArticles;
@@ -14,17 +13,14 @@ new class extends Component
     public function mount(string $slug)
     {
         $this->article = Article::withCount('comments')->where('slug', $slug)->firstOrFail();
-        $this->relatedArticles = Article::published()->where('topic_id', $this->article->topic_id)
-            ->where('id', '!=', $this->article->id)
-            ->limit(3)
-            ->get();
+        $this->relatedArticles = Article::published()->where('topic_id', $this->article->topic_id)->where('id', '!=', $this->article->id)->limit(3)->get();
 
         if (!Cookie::get('article_viewed_' . $this->article->id)) {
             DB::table('articles')->where('id', $this->article->id)->increment('view_count');
             Cookie::queue('article_viewed_' . $this->article->id, true, 60 * 24);
         }
     }
-}
+};
 ?>
 <script type="application/ld+json">
     {
@@ -40,26 +36,36 @@ new class extends Component
     </script>
 <div class="container sm:w-[70%] mx-auto">
 
-    <article class="space-y-8">
-        <div class="w-full space-y-1 py-4">
-
-            <div class="flex flex-col md:flex-row items-start md:items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                <div>
-                    @if ($article->topic_id)
-                        <span
-                            class="text-sm font-semibold text-gray-400 tracking-wider uppercase">{{ $article->topic->name }}
-                        </span>
-                        <span class="hidden md:inline">•</span>
-                    @endif
-                </div>
-                <span>{{ carbon($article->published_at ?? $article->created_at)->format('F j, Y \a\t H:m a') }}</span>
-                {{-- <span>•</span>
-                    <span>{{ $article->read_time }} min read</span> --}}
+    <article class="space-y-8 py-8">
+        <header class="mb-8">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+                {{ $article->topic?->name }}
+              </span>
+              <span class="text-xs text-gray-500 dark:text-gray-400">5 min read</span>
+              <span class="text-xs text-gray-500 dark:text-gray-400">{{ carbon($article->published_at ?? $article->created_at)->format('F j, Y ') }}</span>
             </div>
-            <h1 class="text-2xl tracking-tight font-extrabold text-gray-900 dark:text-gray-50 sm:text-3xl md:text-5xl ">
+            <h1 class="mb-4 text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl dark:text-white">
                 {{ $article->title }}
             </h1>
-        </div>
+            <p class="mb-6 text-xl text-gray-600 dark:text-gray-300">
+                {{ $article->excerpt }}
+            </p>
+            
+            <!-- Author Info -->
+            {{-- <div class="flex items-center">
+              <img 
+                src="https://placehold.co/80x80" 
+                alt="Alex Johnson" 
+                class="mr-4 h-12 w-12 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-medium text-gray-900 dark:text-white">Alex Johnson</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Senior Web Developer & Tech Writer</p>
+              </div>
+            </div> --}}
+          </header>
+        
         <div class="flex justify-between border-b border-t px-3 py-2 dark:border-gray-700">
             <div>
                 <span class="text-sm font-semibold text-gray-400 tracking-wider uppercase">By
@@ -80,9 +86,12 @@ new class extends Component
             </div>
         </div>
         <div>
-            <img src="{{ url('storage/' . $article->featured_image) }}" class="rounded-lg " alt="{{ $article->title }}">
+            @if ($article->featured_image)
+                <img src="{{ url('storage/' . $article->featured_image) }}" class="rounded-lg "
+                    alt="{{ $article->title }}">
+            @endif
         </div>
-        <div class="text-xl space-y-5 text-justify dark:text-gray-100 leading-9">
+        <div class="content text-xl space-y-5 text-justify dark:text-gray-100 leading-9">
             {!! $article->content !!}
         </div>
     </article>
@@ -105,8 +114,8 @@ new class extends Component
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             @forelse ($relatedArticles as $relatedArticle)
                 <article class="bg-white dark:bg-gray-800 rounded-xl shadow-xs hover:shadow-md transition-shadow">
-                    <img src="{{ url('storage/' . $relatedArticle->cover_photo_path) }}" alt="{{ $relatedArticle->title }}"
-                        class="w-full h-48 object-cover rounded-t-xl">
+                    <img src="{{ url('storage/' . $relatedArticle->cover_photo_path) }}"
+                        alt="{{ $relatedArticle->title }}" class="w-full h-48 object-cover rounded-t-xl">
                     <div class="py-3">
                         <h3 class="text-xl font-semibold mb-2">
                             <a href="" class="hover:text-blue-600 dark:hover:text-blue-400">

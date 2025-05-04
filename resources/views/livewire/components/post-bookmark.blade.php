@@ -15,7 +15,7 @@ new class extends Component {
     public function toggleBookmark()
     {
         if (!auth()->check()) {
-            return redirect()->route('login');
+            return redirect()->route('auth.login');
         }
 
         if ($this->isBookmarked) {
