@@ -13,8 +13,8 @@ new class extends Component {
     public function with()
     {
         return [
-            'posts' => Article::latest()->paginate($this->perPage),
-            'topics' => Topic::withCount('articles')->latest()->take(6)->get(),
+            'posts' => Article::with('topic')->latest()->take(6)->get(),
+            'topics' => Topic::withCount('articles')->orderBy('articles_count', 'desc')->take(6)->get(),
         ];
     }
 };
@@ -174,9 +174,9 @@ new class extends Component {
                 @endforelse
             </div>
             <div class="mt-8 text-center">
-                <a href="#"
+                <a href="{{ route('articles') }}" wire:navigate
                     class="inline-flex items-center rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
-                    View All 
+                    View All
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-arrow-right ml-2">
@@ -209,7 +209,8 @@ new class extends Component {
                             </svg>
                         </div>
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ $topic->name }}</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $topic->articles_count }} articles</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $topic->articles_count }} articles
+                        </p>
                     </a>
                 @endforeach
             </div>

@@ -4,6 +4,12 @@ use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 
 new class extends Component {
+    public $menus = [
+        'Home' => 'home',
+        'Topics' => 'topics',
+        'About' => '#',
+        'Contact' => '#',
+    ];
     /**
      * Log the current user out of the application.
      */
@@ -27,7 +33,14 @@ new class extends Component {
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
-            <a href="/"
+            @foreach ($menus as $label => $link)
+                <a href="{{ $link === '#' ? $link : route($link) }}"
+                    class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300"
+                    :class="{'text-gray-600':'{{ request()->is($link) }}'}">
+                    {{ $label }}
+                </a>
+            @endforeach
+            {{-- <a href="/"
                 class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
                 Home
             </a>
@@ -42,7 +55,7 @@ new class extends Component {
             <a href="#"
                 class="text-sm font-medium text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
                 Contact
-            </a>
+            </a> --}}
         </nav>
 
         <div class="flex items-center gap-4">
@@ -117,22 +130,14 @@ new class extends Component {
         x-transition:leave-end="opacity-0 -translate-y-2">
         <div class="border-t border-gray-200 py-2 dark:border-gray-800">
             <nav class="container mx-auto flex flex-col space-y-1 px-4">
-                <a href="/"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
-                    Home
-                </a>
-                <a href="#"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
-                    Categories
-                </a>
-                <a href="#"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
-                    About
-                </a>
-                <a href="#"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
-                    Contact
-                </a>
+                @foreach ($menus as $label => $link)
+                    <a href="{{ $link === '#' ? $link : route($link) }}"
+                        class="block rounded-md px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800"
+                        :class="{'bg-gray-100 dark:bg-gray-800':'{{ request()->is($link) }}'}">
+                        {{ $label }}
+                    </a>    
+                @endforeach
+                
             </nav>
         </div>
     </div>

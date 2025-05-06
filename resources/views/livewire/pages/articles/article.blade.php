@@ -62,8 +62,8 @@ new class extends Component {
                 class="mr-4 h-12 w-12 rounded-full object-cover"
               />
               <div>
-                <p class="font-medium text-gray-900 dark:text-white">Alex Johnson</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Senior Web Developer & Tech Writer</p>
+                <p class="font-medium text-gray-900 dark:text-white capitalize">{{ $article->user->name }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $article->user->bio ?? 'N/A' }}</p>
               </div>
             </div>
         </header>

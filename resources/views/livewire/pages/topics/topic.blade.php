@@ -37,7 +37,7 @@ new class extends Component {
                 @empty
                     <div class="lg:col-span-3 flex items-center justify-center h-full">
                         <div class="text-center">
-                            <p class="text-gray-500 text-xl font-semibold">No posts found.</p>
+                            <p class="text-gray-500 text-xl font-semibold">No articles.</p>
                             <p class="text-gray-400">Check back later.</p>
                         </div>
                     </div>

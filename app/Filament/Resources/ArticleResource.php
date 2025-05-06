@@ -28,7 +28,7 @@ class ArticleResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')->required()->columnSpanFull(),
                 Forms\Components\TextInput::make('excerpt')->columnSpanFull()->required(),
-                Forms\Components\RichEditor::make('content')->autofocus(false)->required()->columnSpanFull(),
+                Forms\Components\RichEditor::make('content')->required()->columnSpanFull(),
                 Forms\Components\Select::make('topic_id')->relationship('topic','name'),
                 Forms\Components\Select::make('tags')->relationship('tags','name')->multiple(),
                 Forms\Components\TextInput::make('meta_keywords')->label('Keywords')->columnSpanFull(),
@@ -50,14 +50,12 @@ class ArticleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->searchable()->wrap()->lineClamp(2),
-                Tables\Columns\TextColumn::make('sub_title')->searchable()->wrap()->lineClamp(1),
-                Tables\Columns\TextColumn::make('body')->searchable()->wrap()->lineClamp(1),
+                Tables\Columns\TextColumn::make('excerpt')->searchable()->wrap()->lineClamp(1),
                 Tables\Columns\TextColumn::make('status')->badge()->searchable(),
                 Tables\Columns\TextColumn::make('views')->searchable(),
                 Tables\Columns\TextColumn::make('published_at')->dateTime()->sortable(),
                 Tables\Columns\TextColumn::make('scheduled_for')->dateTime()->sortable(),
-                Tables\Columns\TextColumn::make('cover_photo_path')->searchable(),
-                Tables\Columns\TextColumn::make('photo_alt_text')->searchable(),
+                Tables\Columns\ImageColumn::make('featured_image')->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->numeric()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

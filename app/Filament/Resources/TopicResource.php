@@ -37,20 +37,10 @@ class TopicResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('parent_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
+                Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('slug'),
+                Tables\Columns\TextColumn::make('parent.name')->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
@@ -77,8 +67,8 @@ class TopicResource extends Resource
     {
         return [
             'index' => Pages\ListTopics::route('/'),
-            'create' => Pages\CreateTopic::route('/create'),
-            'edit' => Pages\EditTopic::route('/{record}/edit'),
+            // 'create' => Pages\CreateTopic::route('/create'),
+            // 'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
     }
 }

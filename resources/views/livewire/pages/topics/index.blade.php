@@ -24,7 +24,7 @@ new class extends Component {
     <section class="py-12">
         <div class="container mx-auto px-4">
             <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Topics</h2>
-            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                 <!-- Categories (Generated with Alpine.js) -->
                 @foreach ($topics as $topic)
                     <a href="{{ route('topic', ['slug' => $topic->slug]) }}"
