@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Providers;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
@@ -13,15 +16,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Forms\Components\Select::configureUsing(function ($component): void {
+        Select::configureUsing(function ($component): void {
             $component->native(false);
         });
 
-        Forms\Components\DateTimePicker::configureUsing(function ($component): void {
+        DateTimePicker::configureUsing(function ($component): void {
             $component->native(false);
         });
 
-        Forms\Components\DatePicker::configureUsing(function ($component): void {
+        DatePicker::configureUsing(function ($component): void {
             $component->native(false);
         });
     }

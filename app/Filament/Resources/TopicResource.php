@@ -2,11 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\TopicResource\Pages\ListTopics;
 use App\Filament\Resources\TopicResource\Pages;
 use App\Filament\Resources\TopicResource\RelationManagers;
 use App\Models\Topic;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,20 +24,20 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TopicResource extends Resource
 {
     protected static ?string $model = Topic::class;
-    protected static ?string $navigationGroup = 'Articles';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \UnitEnum | null $navigationGroup = 'Articles';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')->required()
+        return $schema
+            ->components([
+                TextInput::make('name')->required()
                     ->afterStateUpdated(fn($state, $set) => $set('slug', str($state)->slug()))->live(true)
                     ->unique('topics', 'name', ignoreRecord: true),
-                Forms\Components\TextInput::make('slug')->required()->unique('topics', 'slug', ignoreRecord: true),
-                Forms\Components\Textarea::make('description')
+                TextInput::make('slug')->required()->unique('topics', 'slug', ignoreRecord: true),
+                Textarea::make('description')
                     ->columnSpanFull(),
-                Forms\Components\Select::make('parent_id')->relationship('parent', 'name'),
+                Select::make('parent_id')->relationship('parent', 'name'),
             ]);
     }
 
@@ -37,21 +45,21 @@ class TopicResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('parent.name')->sortable(),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('slug'),
+                TextColumn::make('parent.name')->sortable(),
+                TextColumn::make('created_at')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -66,7 +74,7 @@ class TopicResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTopics::route('/'),
+            'index' => ListTopics::route('/'),
             // 'create' => Pages\CreateTopic::route('/create'),
             // 'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];

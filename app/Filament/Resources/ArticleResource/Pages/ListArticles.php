@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ArticleResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Imports\ArticleImporter;
 use App\Filament\Resources\ArticleResource;
 use Filament\Actions;
@@ -21,7 +22,7 @@ class ListArticles extends ListRecords
             //     ExcelExport::make('table')->fromTable(),
             // ]),
             ImportAction::make()->importer(ArticleImporter::class),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }
