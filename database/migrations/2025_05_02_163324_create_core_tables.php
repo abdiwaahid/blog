@@ -43,12 +43,22 @@ return new class extends Migration
             $table->enum('status', ['draft', 'pending', 'published'])->default('draft');
             $table->boolean('comments_enabled')->default(true);
             $table->timestamp('published_at')->nullable();
+            $table->boolean('is_translated')->default(false);
+            $table->string('source_url')->nullable();
+            $table->string('source_name')->nullable();
+            $table->string('source_author')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        // Metadata table
+        Schema::create('article_metadata', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('article_id')->constrained()->onDelete('cascade');
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
-            $table->integer('view_count')->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
 
         // Post-Tag relationship table
@@ -100,8 +110,37 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // For AI features
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('type');
+            $table->longText('content')->nullable();
+            $table->string('url')->nullable();
+            $table->string('status')->default('pending');
+            $table->string('priority')->default('normal');
+            $table->timestamp('due_date')->nullable();
+            $table->boolean('is_completed')->default(false);
+            $table->boolean('is_recurring')->default(false);
+            $table->string('frequency')->nullable();
+            $table->string('params')->nullable();
+            $table->timestamp('end_date')->nullable();
+            $table->string('color')->nullable();
+            $table->string('icon')->nullable();
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('task_history', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->foreignId('article_id')->nullable()->constrained('articles')->onDelete('set null');
+            $table->longText('result')->nullable();
+            $table->timestamp('performed_at')->useCurrent();
+            $table->timestamps();
+        });
+
         // For advanced features
-        
         // Subscription plans
         Schema::create('subscription_plans', function (Blueprint $table) {
             $table->id();
@@ -161,7 +200,6 @@ return new class extends Migration
             $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
-
     }
 
     /**
@@ -181,6 +219,9 @@ return new class extends Migration
         Schema::dropIfExists('comment_reactions');
         Schema::dropIfExists('comments');
         Schema::dropIfExists('article_tag');
+        Schema::dropIfExists('task_history');
+        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('article_metadata');
         Schema::dropIfExists('articles');
         Schema::dropIfExists('tags');
         Schema::dropIfExists('topics');
