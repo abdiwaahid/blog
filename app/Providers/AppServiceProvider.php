@@ -4,14 +4,12 @@ namespace App\Providers;
 
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
 
         Model::unguard();
     }
-
 
     protected function configureFilament(): void
     {

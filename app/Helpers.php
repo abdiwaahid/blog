@@ -9,18 +9,18 @@ if (! function_exists('carbon')) {
         if (blank($date)) {
             return now();
         }
+
         return Carbon::parse($date);
     }
 }
 
 if (! function_exists('general_setting')) {
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2855873029.
-    function general_setting(string $key, string | array $default = ''): string | array
+    // Suggested code may be subject to a license. Learn more: ~LicenseLog:2855873029.
+    function general_setting(string $key, string|array $default = ''): string|array
     {
         return GeneralSetting::query()->first()->{$key} ?? $default;
     }
 }
-
 
 if (! function_exists('avatar_path')) {
     function avatar_path($user): string

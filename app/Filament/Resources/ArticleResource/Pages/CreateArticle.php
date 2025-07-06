@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ArticleResource\Pages;
 
 use App\Filament\Resources\ArticleResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateArticle extends CreateRecord
@@ -16,8 +15,9 @@ class CreateArticle extends CreateRecord
         $data['slug'] = str($data['title'])->slug();
         $data['meta_title'] = $data['title'];
         $data['meta_description'] = $data['excerpt'];
-        
-        $data['published_at'] =  when($data['status'] == 'published' ,now());
+
+        $data['published_at'] = when($data['status'] == 'published', now());
+
         return $data;
     }
 }

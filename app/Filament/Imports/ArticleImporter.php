@@ -22,7 +22,7 @@ class ArticleImporter extends Importer
             ImportColumn::make('scheduled_for')->rules(['datetime']),
             ImportColumn::make('cover_photo_path')->requiredMapping()->rules(['required']),
             ImportColumn::make('photo_alt_text')->requiredMapping()->rules(['required']),
-            ImportColumn::make('user')->requiredMapping()->relationship('user','name')->rules(['required']),
+            ImportColumn::make('user')->requiredMapping()->relationship('user', 'name')->rules(['required']),
             ImportColumn::make('views')->requiredMapping()->numeric()
                 ->rules(['required', 'integer']),
         ];
@@ -35,9 +35,8 @@ class ArticleImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Article();
+        return new Article;
     }
-
 
     protected function beforeCreate(): void
     {
@@ -46,10 +45,10 @@ class ArticleImporter extends Importer
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your Article import has completed and ' . number_format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';
+        $body = 'Your Article import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to import.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
         }
 
         return $body;

@@ -33,10 +33,12 @@ class Article extends Model
     {
         return $query->where('status', 'published')->where('published_at', '<=', now());
     }
+
     public function scopeDraft($query)
     {
         return $query->where('status', 'draft');
     }
+
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
@@ -56,6 +58,7 @@ class Article extends Model
     {
         return $this->bookmarks()->where('user_id', $user)->exists();
     }
+
     public function isLikedBy($user)
     {
         return $this->likes()->where('user_id', $user)->exists();

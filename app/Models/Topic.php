@@ -17,11 +17,9 @@ class Topic extends Model
     {
         return $this->belongsTo(Topic::class, 'parent_id');
     }
-    
+
     public function children()
     {
         return $this->hasMany(Topic::class, 'parent_id');
     }
-
-    
 }

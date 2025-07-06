@@ -2,36 +2,32 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\TagResource\Pages;
+use App\Filament\Resources\TagResource\Pages\ListTags;
+use App\Models\Tag;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\TagResource\Pages\ListTags;
-use App\Filament\Resources\TagResource\Pages;
-use App\Filament\Resources\TagResource\RelationManagers;
-use App\Models\Tag;
-use Filament\Forms;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Posts';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
+    protected static string|\UnitEnum|null $navigationGroup = 'Posts';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')->required()
-                    ->afterStateUpdated(fn($state, $set) => $set('slug', str($state)->slug()))->live(true)
+                    ->afterStateUpdated(fn ($state, $set) => $set('slug', str($state)->slug()))->live(true)
                     ->unique('tags', 'name', ignoreRecord: true),
                 TextInput::make('slug')->required(),
             ]);

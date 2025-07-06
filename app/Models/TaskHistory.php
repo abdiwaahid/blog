@@ -13,5 +13,4 @@ class TaskHistory extends Model
     {
         return $this->belongsTo(Task::class, 'task_id');
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TaskFrequency : string
+enum TaskFrequency: string
 {
     case EverySecond = 'everySecond';
     case Daily = 'daily';
@@ -24,7 +24,7 @@ enum TaskFrequency : string
     public static function toArray(): array
     {
         return collect(self::cases())
-            ->mapWithKeys(fn($case) => [$case->value => $case->label()])
+            ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
             ->toArray();
     }
 }

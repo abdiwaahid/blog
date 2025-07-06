@@ -9,10 +9,10 @@ class CreateTask extends CreateRecord
 {
     protected static string $resource = TaskResource::class;
 
-     protected function mutateFormDataBeforeCreate(array $data): array
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = auth()->id();
-    
+
         return $data;
     }
 }

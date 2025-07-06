@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("article_id")->constrained(table: 'articles')->cascadeOnDelete();
+            $table->foreignId('article_id')->constrained(table: 'articles')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
 
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("article_id")->constrained(table: 'articles')->cascadeOnDelete();
+            $table->foreignId('article_id')->constrained(table: 'articles')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
